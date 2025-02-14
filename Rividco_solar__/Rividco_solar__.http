@@ -1,0 +1,6 @@
+@Rividco_solar___HostAddress = http://localhost:5264
+
+GET {{Rividco_solar___HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
