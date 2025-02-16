@@ -10,7 +10,7 @@ namespace Rividco_solar__.Services
 
         Task<Systemuser> AddAsync(Systemuser user);
 
-        Task<Systemuser> UpdateAsync(int id,Systemuser user);
+        Task<Systemuser> UpdateAsync(int id,Systemuser updatedsystemuser);
 
         Task<bool> DeleteAsync(int id);
     }

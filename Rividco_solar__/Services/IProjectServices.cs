@@ -1,14 +1,16 @@
-﻿namespace Rividco_solar__.Services
+﻿using Rividco_solar__.Models;
+
+namespace Rividco_solar__.Services
 {
     public interface IProjectServices
     {
-        Task<(IEnumerable<ProjectServices>,int Totalcount)> GetAllAsync(int page=1,int pagesize=10);
+        Task<(IEnumerable<Project>,int Totalcount)> GetAllAsync(int page=1,int pagesize=10);
 
-        Task<ProjectServices> GetIdByAsync(int id);
+        Task<Project> GetIdByAsync(int id);
 
-        Task<ProjectServices> AddAsync(ProjectServices service);
+        Task<Project> AddAsync(Project project);
 
-        Task<ProjectServices> UpdateAsync(ProjectServices service,int id);
+        Task<Project> UpdateAsync(int id, Project updatedproject);
 
         Task<bool> DeleteAsync(int id);
     }

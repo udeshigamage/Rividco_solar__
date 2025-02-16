@@ -19,6 +19,14 @@ builder.Services.AddDbContext<AppDbcontext>(options =>
     ));
 
 builder.Services.AddScoped<ICustomerServices , CustomerServices>();
+builder.Services.AddScoped<IProjectitemservices, ProjectitemServices>();
+builder.Services.AddScoped<IProjectServices, ProjectServices>();
+builder.Services.AddScoped<IVendorServices, VendorServices>();
+builder.Services.AddScoped<IVendoritemServices, VendoritemServices>();
+builder.Services.AddScoped<IVendorServices, VendorServices>();
+builder.Services.AddScoped<ISystemuserServices, SystemuserServices>();
+
+
 
 builder.Services.AddCors(options =>
 {

@@ -14,7 +14,7 @@ namespace Rividco_solar__.Services
 
         }
 
-        public async Task<(IEnumerable<Vendoritem> vendoritem, int Totalcount)> GetAllAsync(int pagesize = 10, int page = 1)
+       public async Task<(IEnumerable<Vendoritem>, int Totalcount)> GetAllAsync(int page = 1, int pagesize = 10)
         {
             var Totalcount = await _dbcontext.Vendoritem.CountAsync();
             var vendoritems = await _dbcontext.Vendoritem.Skip((page - 1) * pagesize).Take(pagesize).ToListAsync();

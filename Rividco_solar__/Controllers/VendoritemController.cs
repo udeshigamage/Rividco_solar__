@@ -1,12 +1,72 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Rividco_solar__.Models;
+using Rividco_solar__.Services;
 
 namespace Rividco_solar__.Controllers
 {
-    public class VendoritemController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class VendoritemController : ControllerBase
     {
-        public IActionResult Index()
+        private readonly IVendoritemServices _vendoritemServices;
+
+        public VendoritemController(IVendoritemServices vendoritemServices)
         {
-            return View();
+            _vendoritemServices = vendoritemServices;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll(int page = 1, int pagesize = 10)
+        {
+            var (Vendoritems, totalcount) = await _vendoritemServices.GetAllAsync(page, pagesize);
+            var response = new
+            {
+                data = Vendoritems,
+                totalItems = totalcount,
+                totalPages = (int)Math.Ceiling((double)totalcount / pagesize),
+                currentPage = page
+            };
+
+            return Ok(response);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var Vendoritems = await _vendoritemServices.GetByIdAsync(id);
+            if (Vendoritems == null) return NotFound();
+            return Ok(Vendoritems);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(Vendoritem vendoritem)
+        {
+            var newVendoritems = await _vendoritemServices.AddAsync(vendoritem);
+            return CreatedAtAction(nameof(GetById), new { id = newVendoritems.Vendoritem_ID }, newVendoritems);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateVendoritems(int id, Vendoritem vendoritem)
+        {
+            var updatedvendoritem = await _vendoritemServices.UpdateAsync(id, vendoritem);
+
+            if (updatedvendoritem == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(updatedvendoritem);
+        }
+
+
+
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _vendoritemServices.DeleteAsync(id);
+            if (!result) return NotFound();
+            return NoContent();
         }
     }
 }
