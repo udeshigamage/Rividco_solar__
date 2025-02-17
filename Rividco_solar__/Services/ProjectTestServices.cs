@@ -56,6 +56,7 @@ namespace Rividco_solar__.Services
             existingprojecttest.Conducted_by = updatedprojecttest.Conducted_by;
             existingprojecttest.Conducted_date = updatedprojecttest.Conducted_date;
             ;
+            await _dbcontext.SaveChangesAsync();
 
             return (existingprojecttest);
 

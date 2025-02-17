@@ -56,7 +56,8 @@ namespace Rividco_solar__.Services
             existingprojects.Added_by = updatedproject.Added_by;
             existingprojects.Added_Date = updatedproject.Added_Date;
             existingprojects.serialno = updatedproject.serialno;
-            
+
+            await _dbcontext.SaveChangesAsync();
 
             return (existingprojects);
 

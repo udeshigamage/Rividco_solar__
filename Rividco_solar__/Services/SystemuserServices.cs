@@ -48,6 +48,7 @@ namespace Rividco_solar__.Services
             existingsystemuser.FirstName = updatedsystemuser.FirstName;
             existingsystemuser.LastName = updatedsystemuser.LastName;
             existingsystemuser.Role = updatedsystemuser.Role;
+            await _dbcontext.SaveChangesAsync();
 
             return (existingsystemuser);
         }
@@ -60,6 +61,7 @@ namespace Rividco_solar__.Services
                 return false;
             }
              _dbcontext.Systemusers.Remove(systemuser);
+            await _dbcontext.SaveChangesAsync();
             return true;
 
         }

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Rividco_solar__.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class sertr : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -140,6 +140,37 @@ namespace Rividco_solar__.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Vendor",
+                columns: table => new
+                {
+                    Vendor_ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    FirstName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Email = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    mobileno = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    officeno = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    comment = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Address = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    category = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Lastupdatedby = table.Column<int>(type: "int", nullable: false),
+                    Lastupdatedtime = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vendor", x => x.Vendor_ID);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Participant",
                 columns: table => new
                 {
@@ -225,41 +256,36 @@ namespace Rividco_solar__.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Vendor",
+                name: "Vendoritem",
                 columns: table => new
                 {
-                    Vendor_ID = table.Column<int>(type: "int", nullable: false)
+                    Vendoritem_ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    FirstName = table.Column<string>(type: "longtext", nullable: false)
+                    item_name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    LastName = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Email = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    mobileno = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    officeno = table.Column<string>(type: "longtext", nullable: false)
+                    price = table.Column<float>(type: "float", nullable: false),
+                    Warranty_duration = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     comment = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Address = table.Column<string>(type: "longtext", nullable: false)
+                    capacity = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    category = table.Column<string>(type: "longtext", nullable: false)
+                    Vendor_ID = table.Column<int>(type: "int", nullable: false),
+                    product_code = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Company_ID = table.Column<string>(type: "longtext", nullable: false)
+                    brand = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CompanyId = table.Column<int>(type: "int", nullable: false),
                     Lastupdatedby = table.Column<int>(type: "int", nullable: false),
                     Lastupdatedtime = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Vendor", x => x.Vendor_ID);
+                    table.PrimaryKey("PK_Vendoritem", x => x.Vendoritem_ID);
                     table.ForeignKey(
-                        name: "FK_Vendor_Company_CompanyId",
-                        column: x => x.CompanyId,
-                        principalTable: "Company",
-                        principalColumn: "Id",
+                        name: "FK_Vendoritem_Vendor_Vendor_ID",
+                        column: x => x.Vendor_ID,
+                        principalTable: "Vendor",
+                        principalColumn: "Vendor_ID",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -430,42 +456,6 @@ namespace Rividco_solar__.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Vendoritem",
-                columns: table => new
-                {
-                    Vendoritem_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    item_name = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    price = table.Column<float>(type: "float", nullable: false),
-                    Warranty_duration = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    comment = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    capacity = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Vendor_ID = table.Column<int>(type: "int", nullable: false),
-                    Vendor_ID1 = table.Column<int>(type: "int", nullable: false),
-                    product_code = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    brand = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Lastupdatedby = table.Column<int>(type: "int", nullable: false),
-                    Lastupdatedtime = table.Column<DateTime>(type: "datetime(6)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Vendoritem", x => x.Vendoritem_ID);
-                    table.ForeignKey(
-                        name: "FK_Vendoritem_Vendor_Vendor_ID1",
-                        column: x => x.Vendor_ID1,
-                        principalTable: "Vendor",
-                        principalColumn: "Vendor_ID",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Projectitem",
                 columns: table => new
                 {
@@ -566,14 +556,9 @@ namespace Rividco_solar__.Migrations
                 column: "Project_ID1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vendor_CompanyId",
-                table: "Vendor",
-                column: "CompanyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Vendoritem_Vendor_ID1",
+                name: "IX_Vendoritem_Vendor_ID",
                 table: "Vendoritem",
-                column: "Vendor_ID1");
+                column: "Vendor_ID");
         }
 
         /// <inheritdoc />

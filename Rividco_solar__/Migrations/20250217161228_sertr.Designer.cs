@@ -11,8 +11,8 @@ using Rividco_solar__.Dbcontext;
 namespace Rividco_solar__.Migrations
 {
     [DbContext(typeof(AppDbcontext))]
-    [Migration("20250215124533_initial")]
-    partial class initial
+    [Migration("20250217161228_sertr")]
+    partial class sertr
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -619,13 +619,6 @@ namespace Rividco_solar__.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Company_ID")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -662,8 +655,6 @@ namespace Rividco_solar__.Migrations
 
                     b.HasKey("Vendor_ID");
 
-                    b.HasIndex("CompanyId");
-
                     b.ToTable("Vendor");
                 });
 
@@ -680,9 +671,6 @@ namespace Rividco_solar__.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<int>("Vendor_ID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Vendor_ID1")
                         .HasColumnType("int");
 
                     b.Property<string>("Warranty_duration")
@@ -714,7 +702,7 @@ namespace Rividco_solar__.Migrations
 
                     b.HasKey("Vendoritem_ID");
 
-                    b.HasIndex("Vendor_ID1");
+                    b.HasIndex("Vendor_ID");
 
                     b.ToTable("Vendoritem");
                 });
@@ -831,22 +819,11 @@ namespace Rividco_solar__.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("Rividco_solar__.Models.Vendor", b =>
-                {
-                    b.HasOne("Rividco_solar__.Models.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Company");
-                });
-
             modelBuilder.Entity("Rividco_solar__.Models.Vendoritem", b =>
                 {
                     b.HasOne("Rividco_solar__.Models.Vendor", "Vendor")
                         .WithMany()
-                        .HasForeignKey("Vendor_ID1")
+                        .HasForeignKey("Vendor_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -14,12 +14,11 @@ namespace Rividco_solar__.Services
 
         }
 
-        public async Task<(IEnumerable<Vendor> vendors, int Totalcount)> GetAllAsync(int pagesize = 10, int page = 1)
+        public async Task<(IEnumerable<Vendor> vendors, int TotalCount)> GetAllAsync(int page = 1, int pagesize = 10)
         {
-            var Totalcount = await _dbcontext.Vendor.CountAsync();
+            var TotalCount = await _dbcontext.Vendor.CountAsync();
             var vendors = await _dbcontext.Vendor.Skip((page - 1) * pagesize).Take(pagesize).ToListAsync();
-            return (vendors, Totalcount);
-
+            return (vendors, TotalCount);
         }
 
         public async Task<Vendor> GetByIdAsync(int id)
@@ -37,34 +36,42 @@ namespace Rividco_solar__.Services
             return (vendor);
         }
 
-        public async Task<Vendor> UpdateAsync(int id, Vendor updatedvendors)
+        public async Task<Vendor?> UpdateAsync(int id, Vendor updatedVendor)
         {
-            var existingvendors = await _dbcontext.Vendor.FindAsync(id);
-
-            if (existingvendors == null)
+            // Find the employee in the database
+            var existingVendor = await _dbcontext.Vendor.FindAsync(id);
+            if (existingVendor == null)
             {
-                return null;
+                return null; // Return null if the employee doesn't exist
             }
 
-            existingvendors.comment = updatedvendors.comment;
-            existingvendors.officeno = updatedvendors.officeno;
-            existingvendors.Email = updatedvendors.Email;
-            existingvendors.mobileno = updatedvendors.mobileno;
-            existingvendors.Address = updatedvendors.Address;
-            existingvendors.category = updatedvendors.category;
-            existingvendors.FirstName = updatedvendors.FirstName;
-            existingvendors.LastName = updatedvendors.LastName;
+            // Update the employee fields
+            existingVendor.Email = updatedVendor.Email;
+            existingVendor.category = updatedVendor.category;
 
-            return (existingvendors);
+            existingVendor.mobileno = updatedVendor.mobileno;
+            existingVendor.officeno = updatedVendor.officeno;
+            existingVendor.comment = updatedVendor.comment;
+            existingVendor.Address = updatedVendor.Address;
+            existingVendor.FirstName = updatedVendor.FirstName;
+            existingVendor.LastName = updatedVendor.LastName;
 
+
+
+
+
+            // Save changes to the database
+            await _dbcontext.SaveChangesAsync();
+
+            return existingVendor; // Return the updated employee
         }
-
         public async Task<bool> DeleteAsync(int id)
         {
             var vendors = await _dbcontext.Vendor.FindAsync(id);
-            if (vendors == null)
-            { return false; }
+            if (vendors == null) return false;
+
             _dbcontext.Vendor.Remove(vendors);
+            await _dbcontext.SaveChangesAsync();
             return true;
         }
     }

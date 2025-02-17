@@ -14,14 +14,45 @@ namespace Rividco_solar__.Controllers
         {
             _vendoritemServices = vendoritemServices;
         }
-
+       
         [HttpGet]
         public async Task<IActionResult> GetAll(int page = 1, int pagesize = 10)
         {
+            // Fetch Vendoritems with associated Vendor
             var (Vendoritems, totalcount) = await _vendoritemServices.GetAllAsync(page, pagesize);
+
+            // Shape the response
             var response = new
             {
-                data = Vendoritems,
+                data = Vendoritems.Select(v => new
+                {
+                    v.Vendoritem_ID,
+                    v.item_name,
+                    v.price,
+                    v.Warranty_duration,
+                    v.comment,
+                    v.capacity,
+                    v.Vendor_ID,
+                    v.product_code,
+                    v.brand,
+                    v.Lastupdatedby,
+                    v.Lastupdatedtime,
+                    // Vendor details fetched using Vendor_ID
+                    vendor = new
+                    {
+                        v.Vendor.Vendor_ID,
+                        v.Vendor.FirstName,
+                        v.Vendor.LastName,
+                        v.Vendor.Email,
+                        v.Vendor.mobileno,
+                        v.Vendor.officeno,
+                        v.Vendor.comment,
+                        v.Vendor.Address,
+                        v.Vendor.category,
+                        v.Vendor.Lastupdatedtime,
+                        v.Vendor.Lastupdatedby
+                    }
+                }),
                 totalItems = totalcount,
                 totalPages = (int)Math.Ceiling((double)totalcount / pagesize),
                 currentPage = page
@@ -29,6 +60,8 @@ namespace Rividco_solar__.Controllers
 
             return Ok(response);
         }
+
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)

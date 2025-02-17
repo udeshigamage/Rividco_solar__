@@ -4,7 +4,7 @@ namespace Rividco_solar__.Services
 {
     public interface IVendoritemServices
     {
-        Task<(IEnumerable<Vendoritem>, int Totalcount)> GetAllAsync(int page=1,int pagesize=10);
+        Task<(List<Vendoritem> Vendoritems, int totalcount)> GetAllAsync(int page, int pagesize);
         Task<Vendoritem> GetByIdAsync(int id);
 
         Task<Vendoritem> AddAsync(Vendoritem vendoritem);

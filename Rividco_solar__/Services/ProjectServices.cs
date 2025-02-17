@@ -52,14 +52,15 @@ namespace Rividco_solar__.Services
 
             existingprojects.status = updatedproject.status;
             existingprojects.comment = updatedproject.comment;
-            existingprojects.description = updatedproject.description;
+           
             existingprojects.location = updatedproject.location;
             existingprojects.Address =updatedproject.Address;
             existingprojects.estimatedcost = updatedproject.estimatedcost;  
             existingprojects.Commissioneddate= updatedproject.Commissioneddate; 
             existingprojects.referencedby = updatedproject.referencedby;
             existingprojects.startdate = updatedproject.startdate;
-            existingprojects.warranty_period =updatedproject.warranty_period;   
+            existingprojects.warranty_period =updatedproject.warranty_period;
+            await _dbcontext.SaveChangesAsync();
 
             return (existingprojects);
 

@@ -25,9 +25,7 @@ namespace Rividco_solar__.Models
 
         public string category { get; set; }
 
-        public string Company_ID { get; set; }
-
-        public Company Company { get; set; }
+        
 
         public int Lastupdatedby { get; set; }
 

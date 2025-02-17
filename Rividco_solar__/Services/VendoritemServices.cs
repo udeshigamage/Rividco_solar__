@@ -14,13 +14,23 @@ namespace Rividco_solar__.Services
 
         }
 
-       public async Task<(IEnumerable<Vendoritem>, int Totalcount)> GetAllAsync(int page = 1, int pagesize = 10)
+        public async Task<(List<Vendoritem> Vendoritems, int totalcount)> GetAllAsync(int page, int pagesize)
         {
-            var Totalcount = await _dbcontext.Vendoritem.CountAsync();
-            var vendoritems = await _dbcontext.Vendoritem.Skip((page - 1) * pagesize).Take(pagesize).ToListAsync();
-            return (vendoritems, Totalcount);
+            var query = _dbcontext.Vendoritem
+                                  .Include(v => v.Vendor); // Include Vendor data
+                                  
 
+            var totalcount = await query.CountAsync();
+            var vendoritems = await query
+                                 .Skip((page - 1) * pagesize)
+                                 .Take(pagesize)
+                                 .ToListAsync();
+
+            return (vendoritems, totalcount);
         }
+
+
+
 
         public async Task<Vendoritem> GetByIdAsync(int id)
         {
@@ -32,10 +42,15 @@ namespace Rividco_solar__.Services
 
         public async Task<Vendoritem> AddAsync(Vendoritem vendoritem)
         {
+            // Ensure Vendor object is not attached when adding
+            vendoritem.Vendor = null;
+
             _dbcontext.Vendoritem.Add(vendoritem);
-            _dbcontext.SaveChanges();
-            return (vendoritem);
+            await _dbcontext.SaveChangesAsync();
+
+            return vendoritem;
         }
+
 
         public async Task<Vendoritem> UpdateAsync(int id, Vendoritem updatedvendoritems)
         {
@@ -51,17 +66,23 @@ namespace Rividco_solar__.Services
             existingvendoritems.comment = updatedvendoritems.comment;
             existingvendoritems.brand = updatedvendoritems.brand;
             existingvendoritems.product_code = updatedvendoritems.product_code;
-            
+            existingvendoritems.item_name = updatedvendoritems.item_name;
+            existingvendoritems.Warranty_duration=updatedvendoritems.Warranty_duration;
+            existingvendoritems.Vendor_ID=updatedvendoritems.Vendor_ID;
+
+            await _dbcontext.SaveChangesAsync();
+
             return (existingvendoritems);
 
         }
-
+       
         public async Task<bool> DeleteAsync(int id)
         {
             var vendoritems = await _dbcontext.Vendoritem.FindAsync(id);
             if (vendoritems == null)
             { return false; }
             _dbcontext.Vendoritem.Remove(vendoritems);
+            await _dbcontext.SaveChangesAsync();
             return true;
         }
     }

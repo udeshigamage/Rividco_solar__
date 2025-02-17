@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rividco_solar__.Dbcontext;
 
@@ -10,9 +11,11 @@ using Rividco_solar__.Dbcontext;
 namespace Rividco_solar__.Migrations
 {
     [DbContext(typeof(AppDbcontext))]
-    partial class AppDbcontextModelSnapshot : ModelSnapshot
+    [Migration("20250217181922_inti")]
+    partial class inti
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -161,6 +164,9 @@ namespace Rividco_solar__.Migrations
                     b.Property<DateTime>("Commissioneddate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int>("Company_ID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Coordinator_ID")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -175,6 +181,10 @@ namespace Rividco_solar__.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("comment")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("description")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -202,6 +212,8 @@ namespace Rividco_solar__.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Project_ID");
+
+                    b.HasIndex("Company_ID");
 
                     b.ToTable("Projects");
                 });
@@ -697,6 +709,17 @@ namespace Rividco_solar__.Migrations
                     b.HasOne("Rividco_solar__.Models.Company", "Company")
                         .WithMany()
                         .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("Rividco_solar__.Models.Project", b =>
+                {
+                    b.HasOne("Rividco_solar__.Models.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("Company_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
