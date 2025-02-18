@@ -18,10 +18,41 @@ namespace Rividco_solar__.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll(int page = 1, int pagesize = 10)
         {
+            
             var (projecttest, totalcount) = await _projecttestservices.GetAllAsync(page, pagesize);
+
+            
             var response = new
             {
-                data = projecttest,
+                data = projecttest.Select(v => new
+                {
+                    v.result,
+                    v.test_name,
+                    v.comment,
+                    v.Conducted_by,
+                    v.Conducted_date,
+                    v.ProjectTest_ID,
+                    v.Project_ID,
+                   
+                   
+
+                    
+
+                    Project = new
+                    {
+                        v.Project.Project_ID,
+                        v.Project.Coordinator_ID,
+                        v.Project.Address,
+                        v.Project.comment,
+                        v.Project.Commissioneddate,
+                        v.Project.customer.FirstName,
+                        v.Project.estimatedcost,
+                        v.Project.startdate,
+                        v.Project.status,
+                        v.Project.location
+                    }
+                    
+                }),
                 totalItems = totalcount,
                 totalPages = (int)Math.Ceiling((double)totalcount / pagesize),
                 currentPage = page
@@ -59,7 +90,32 @@ namespace Rividco_solar__.Controllers
         }
 
 
+        [HttpGet("project-test/{projectid}")]
+        public async Task<IActionResult> GetByProjectId(int projectid, int page = 1, int pagesize = 10)
+        {
+            var (tasks, totalcount) = await _projecttestservices.GetByProjectIdAsync(projectid, page, pagesize);
+            var response = new
+            {
+                data = tasks.Select(v => new
+                {
+                    v.result,
+                    v.test_name,
+                    v.comment,
+                    v.Conducted_by,
+                    v.Conducted_date,
+                    v.ProjectTest_ID,
+                    v.Project_ID,
 
+
+
+                }),
+                totalItems = totalcount,
+                totalPages = (int)Math.Ceiling((double)totalcount / pagesize),
+                currentPage = page
+            };
+
+            return Ok(response);
+        }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)

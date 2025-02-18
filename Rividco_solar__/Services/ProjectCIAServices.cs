@@ -14,16 +14,33 @@ namespace Rividco_solar__.Services
             _context = context;
         }
 
-        public async Task<(IEnumerable<TaskCIA> tasks, int TotalCount)> GetAllAsync(int page = 1, int pagesize = 10)
+        public async Task<(List<TaskCIA> projectcia, int totalcount)> GetAllAsync(int page, int pagesize)
         {
-            var TotalCount = await _context.TaskCIA.CountAsync();
-            var tasks = await _context.TaskCIA.Skip((page - 1) * pagesize).Take(pagesize).ToListAsync();
-            return (tasks, TotalCount);
+            var query = _context.TaskCIA.Include(v => v.Project).ThenInclude(v => v.customer);
+
+            var totalcount = await query.CountAsync();
+            var projectcia = await query
+                                 .Skip((page - 1) * pagesize)
+                                 .Take(pagesize)
+                                 .ToListAsync();
+
+            return (projectcia, totalcount);
         }
 
         public async Task<TaskCIA> GetByIdAsync(int id)
         {
             return await _context.TaskCIA.FindAsync(id);
+        }
+        public async Task<(List<TaskCIA> tasks, int totalcount)> GetByProjectIdAsync(int projectId, int page, int pagesize)
+        {
+            var query =  _context.TaskCIA.Where(c => c.Project_ID == projectId);
+            var totalcount = await query.CountAsync();
+            var tasks = await query
+                                 .Skip((page - 1) * pagesize)
+                                 .Take(pagesize)
+                                 .ToListAsync();
+
+            return (tasks, totalcount);
         }
 
         public async Task<TaskCIA> AddAsync(TaskCIA task)

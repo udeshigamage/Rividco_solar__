@@ -6,6 +6,7 @@ namespace Rividco_solar__.Services
     {
         Task<(List<Projectitem> projectitems, int totalcount)> GetAllAsync(int page, int pagesize);
 
+        Task<(List<Projectitem> tasks, int totalcount)> GetByProjectIdAsync(int projectId, int page, int pagesize);
         Task<Projectitem> GetIdByAsync(int id);
 
         Task<Projectitem> AddAsync(Projectitem projectitem);

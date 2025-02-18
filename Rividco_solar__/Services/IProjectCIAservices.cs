@@ -4,10 +4,10 @@ namespace Rividco_solar__.Services
 {
     public interface IProjectCIAservices
     {
-        Task<(IEnumerable<TaskCIA> tasks, int TotalCount)> GetAllAsync(int page = 1, int pagesize = 10);
+        Task<(List<TaskCIA> projectcia, int totalcount)> GetAllAsync(int page, int pagesize);
 
         Task<TaskCIA> GetByIdAsync(int id);
-
+        Task<(List<TaskCIA> tasks, int totalcount)> GetByProjectIdAsync(int projectId, int page, int pagesize);
         Task<TaskCIA> AddAsync(TaskCIA task);
 
         Task<TaskCIA> UpdateAsync(int id, TaskCIA updatedtask);

@@ -12,7 +12,17 @@ namespace Rividco_solar__.Services
         {
             _dbcontext = dbcontext;
         }
+        public async Task<(List<Projectitem> tasks, int totalcount)> GetByProjectIdAsync(int projectId, int page, int pagesize)
+        {
+            var query = _dbcontext.Projectitem.Where(c => c.Project_ID == projectId);
+            var totalcount = await query.CountAsync();
+            var tasks = await query
+                                 .Skip((page - 1) * pagesize)
+                                 .Take(pagesize)
+                                 .ToListAsync();
 
+            return (tasks, totalcount);
+        }
         public async Task<(List<Projectitem> projectitems, int totalcount)> GetAllAsync(int page, int pagesize)
         {
             var query = _dbcontext.Projectitem

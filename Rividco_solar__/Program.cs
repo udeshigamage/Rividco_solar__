@@ -25,6 +25,8 @@ builder.Services.AddScoped<IVendorServices, VendorServices>();
 builder.Services.AddScoped<IVendoritemServices, VendoritemServices>();
 builder.Services.AddScoped<IVendorServices, VendorServices>();
 builder.Services.AddScoped<ISystemuserServices, SystemuserServices>();
+builder.Services.AddScoped<IProjectCIAservices, ProjectCIAServices>();
+builder.Services.AddScoped<IProjecttestservices,ProjectTestServices>();
 
 
 

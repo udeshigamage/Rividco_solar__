@@ -14,6 +14,34 @@ namespace Rividco_solar__.Controllers
         {
             _projectitemservices = projectitemservices;
         }
+        [HttpGet("project-item/{projectid}")]
+        public async Task<IActionResult> GetByProjectId(int projectid, int page = 1, int pagesize = 10)
+        {
+            var (tasks, totalcount) = await _projectitemservices.GetByProjectIdAsync(projectid, page, pagesize);
+            var response = new
+            {
+                data = tasks.Select(v => new
+                {
+                    v.warranty_duration,
+                    v.Project_ID,
+                    v.Projectitem_ID,
+                    v.serialno,
+                    v.Added_by,
+                    v.Added_Date,
+                    v.comment,
+                    v.Vendoritem_ID,
+                    v.Vendoritem
+
+
+
+                }),
+                totalItems = totalcount,
+                totalPages = (int)Math.Ceiling((double)totalcount / pagesize),
+                currentPage = page
+            };
+
+            return Ok(response);
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetAll(int page = 1, int pagesize = 10)
