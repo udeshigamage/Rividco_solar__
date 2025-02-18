@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace Rividco_solar__.Models
 {
@@ -9,19 +10,21 @@ namespace Rividco_solar__.Models
 
         public int Projectitem_ID { get; set; }
 
+        [ForeignKey("Project")]
         public int Project_ID { get; set; }
-
+        [ValidateNever]
         public Project Project { get; set; }
-        
-
-        public int Vendor_ID { get; set; }
-
-        public Vendor Vendor { get; set; }
 
 
 
+
+       
+       
+
+
+        [ForeignKey("Vendoritem")]
         public int Vendoritem_ID { get; set; }
-
+        [ValidateNever]
         public Vendoritem Vendoritem { get; set; }
 
 

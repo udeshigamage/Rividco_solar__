@@ -5,45 +5,45 @@
 namespace Rividco_solar__.Migrations
 {
     /// <inheritdoc />
-    public partial class se : Migration
+    public partial class de : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Projects_Company_Company_ID",
-                table: "Projects");
+                name: "FK_Projectitem_Vendor_Vendor_ID",
+                table: "Projectitem");
 
             migrationBuilder.DropIndex(
-                name: "IX_Projects_Company_ID",
-                table: "Projects");
+                name: "IX_Projectitem_Vendor_ID",
+                table: "Projectitem");
 
             migrationBuilder.DropColumn(
-                name: "Company_ID",
-                table: "Projects");
+                name: "Vendor_ID",
+                table: "Projectitem");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "Company_ID",
-                table: "Projects",
+                name: "Vendor_ID",
+                table: "Projectitem",
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_Company_ID",
-                table: "Projects",
-                column: "Company_ID");
+                name: "IX_Projectitem_Vendor_ID",
+                table: "Projectitem",
+                column: "Vendor_ID");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Projects_Company_Company_ID",
-                table: "Projects",
-                column: "Company_ID",
-                principalTable: "Company",
-                principalColumn: "Id",
+                name: "FK_Projectitem_Vendor_Vendor_ID",
+                table: "Projectitem",
+                column: "Vendor_ID",
+                principalTable: "Vendor",
+                principalColumn: "Vendor_ID",
                 onDelete: ReferentialAction.Cascade);
         }
     }

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Rividco_solar__.Migrations
 {
     /// <inheritdoc />
-    public partial class sertr : Migration
+    public partial class inital : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -217,9 +217,6 @@ namespace Rividco_solar__.Migrations
                 {
                     Project_ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Customer_ID = table.Column<int>(type: "int", nullable: false),
-                    description = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     location = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Coordinator_ID = table.Column<string>(type: "longtext", nullable: false)
@@ -237,20 +234,19 @@ namespace Rividco_solar__.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     comment = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Company_ID = table.Column<int>(type: "int", nullable: false),
-                    CompanyId = table.Column<int>(type: "int", nullable: false),
                     Lastupdatedby = table.Column<int>(type: "int", nullable: false),
                     Commissioneddate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Lastupdatedtime = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    Lastupdatedtime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Customer_ID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.Project_ID);
                     table.ForeignKey(
-                        name: "FK_Projects_Company_CompanyId",
-                        column: x => x.CompanyId,
-                        principalTable: "Company",
-                        principalColumn: "Id",
+                        name: "FK_Projects_customers_Customer_ID",
+                        column: x => x.Customer_ID,
+                        principalTable: "customers",
+                        principalColumn: "Customer_ID",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -462,11 +458,8 @@ namespace Rividco_solar__.Migrations
                     Projectitem_ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Project_ID = table.Column<int>(type: "int", nullable: false),
-                    Project_ID1 = table.Column<int>(type: "int", nullable: false),
                     Vendor_ID = table.Column<int>(type: "int", nullable: false),
-                    Vendor_ID1 = table.Column<int>(type: "int", nullable: false),
                     Vendoritem_ID = table.Column<int>(type: "int", nullable: false),
-                    Vendoritem_ID1 = table.Column<int>(type: "int", nullable: false),
                     serialno = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     warranty_duration = table.Column<string>(type: "longtext", nullable: false)
@@ -480,20 +473,20 @@ namespace Rividco_solar__.Migrations
                 {
                     table.PrimaryKey("PK_Projectitem", x => x.Projectitem_ID);
                     table.ForeignKey(
-                        name: "FK_Projectitem_Projects_Project_ID1",
-                        column: x => x.Project_ID1,
+                        name: "FK_Projectitem_Projects_Project_ID",
+                        column: x => x.Project_ID,
                         principalTable: "Projects",
                         principalColumn: "Project_ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Projectitem_Vendor_Vendor_ID1",
-                        column: x => x.Vendor_ID1,
+                        name: "FK_Projectitem_Vendor_Vendor_ID",
+                        column: x => x.Vendor_ID,
                         principalTable: "Vendor",
                         principalColumn: "Vendor_ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Projectitem_Vendoritem_Vendoritem_ID1",
-                        column: x => x.Vendoritem_ID1,
+                        name: "FK_Projectitem_Vendoritem_Vendoritem_ID",
+                        column: x => x.Vendoritem_ID,
                         principalTable: "Vendoritem",
                         principalColumn: "Vendoritem_ID",
                         onDelete: ReferentialAction.Cascade);
@@ -511,19 +504,19 @@ namespace Rividco_solar__.Migrations
                 column: "Project_ID1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projectitem_Project_ID1",
+                name: "IX_Projectitem_Project_ID",
                 table: "Projectitem",
-                column: "Project_ID1");
+                column: "Project_ID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projectitem_Vendor_ID1",
+                name: "IX_Projectitem_Vendor_ID",
                 table: "Projectitem",
-                column: "Vendor_ID1");
+                column: "Vendor_ID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projectitem_Vendoritem_ID1",
+                name: "IX_Projectitem_Vendoritem_ID",
                 table: "Projectitem",
-                column: "Vendoritem_ID1");
+                column: "Vendoritem_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projectresources_Project_ID1",
@@ -531,9 +524,9 @@ namespace Rividco_solar__.Migrations
                 column: "Project_ID1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_CompanyId",
+                name: "IX_Projects_Customer_ID",
                 table: "Projects",
-                column: "CompanyId");
+                column: "Customer_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projectservices_Project_ID1",
@@ -564,9 +557,6 @@ namespace Rividco_solar__.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "customers");
-
             migrationBuilder.DropTable(
                 name: "Participant");
 
@@ -601,13 +591,16 @@ namespace Rividco_solar__.Migrations
                 name: "Vendoritem");
 
             migrationBuilder.DropTable(
+                name: "Company");
+
+            migrationBuilder.DropTable(
                 name: "Projects");
 
             migrationBuilder.DropTable(
                 name: "Vendor");
 
             migrationBuilder.DropTable(
-                name: "Company");
+                name: "customers");
         }
     }
 }

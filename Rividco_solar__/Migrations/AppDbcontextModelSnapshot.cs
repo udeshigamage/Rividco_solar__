@@ -203,6 +203,8 @@ namespace Rividco_solar__.Migrations
 
                     b.HasKey("Project_ID");
 
+                    b.HasIndex("Customer_ID");
+
                     b.ToTable("Projects");
                 });
 
@@ -294,19 +296,7 @@ namespace Rividco_solar__.Migrations
                     b.Property<int>("Project_ID")
                         .HasColumnType("int");
 
-                    b.Property<int>("Project_ID1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Vendor_ID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Vendor_ID1")
-                        .HasColumnType("int");
-
                     b.Property<int>("Vendoritem_ID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Vendoritem_ID1")
                         .HasColumnType("int");
 
                     b.Property<string>("comment")
@@ -323,11 +313,9 @@ namespace Rividco_solar__.Migrations
 
                     b.HasKey("Projectitem_ID");
 
-                    b.HasIndex("Project_ID1");
+                    b.HasIndex("Project_ID");
 
-                    b.HasIndex("Vendor_ID1");
-
-                    b.HasIndex("Vendoritem_ID1");
+                    b.HasIndex("Vendoritem_ID");
 
                     b.ToTable("Projectitem");
                 });
@@ -703,6 +691,17 @@ namespace Rividco_solar__.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("Rividco_solar__.Models.Project", b =>
+                {
+                    b.HasOne("Rividco_solar__.Models.Customer", "customer")
+                        .WithMany()
+                        .HasForeignKey("Customer_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("customer");
+                });
+
             modelBuilder.Entity("Rividco_solar__.Models.ProjectCommissionreport", b =>
                 {
                     b.HasOne("Rividco_solar__.Models.Project", "Project")
@@ -729,25 +728,17 @@ namespace Rividco_solar__.Migrations
                 {
                     b.HasOne("Rividco_solar__.Models.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("Project_ID1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Rividco_solar__.Models.Vendor", "Vendor")
-                        .WithMany()
-                        .HasForeignKey("Vendor_ID1")
+                        .HasForeignKey("Project_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Rividco_solar__.Models.Vendoritem", "Vendoritem")
                         .WithMany()
-                        .HasForeignKey("Vendoritem_ID1")
+                        .HasForeignKey("Vendoritem_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Project");
-
-                    b.Navigation("Vendor");
 
                     b.Navigation("Vendoritem");
                 });

@@ -18,12 +18,52 @@ namespace Rividco_solar__.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll(int page = 1, int pagesize = 10)
         {
-            var (projectitem, Totalcount) = await _projectitemservices.GetAllAsync(page, pagesize);
+            // Fetch Vendoritems with associated Vendor
+            var (projectitem, totalcount) = await _projectitemservices.GetAllAsync(page, pagesize);
+
+            // Shape the response
             var response = new
             {
-                data = projectitem,
-                totalItems = Totalcount,
-                totalPages = (int)Math.Ceiling((double)Totalcount / pagesize),
+                data = projectitem.Select(v => new
+                {
+                    v.warranty_duration,
+                    v.Added_by,
+                    v.Added_Date,
+                    v.comment,
+                    v.serialno,
+                    v.Projectitem_ID,
+                    v.Project_ID,
+                    
+                    // Vendor details fetched using Vendor_ID
+                  
+                    Project = new
+                    {
+                        v.Project.Project_ID,
+                        v.Project.Coordinator_ID,
+                        v.Project.Address,
+                        v.Project.comment,
+                        v.Project.Commissioneddate,
+                        v.Project.customer.FirstName,
+                        v.Project.estimatedcost,
+                        v.Project.startdate,
+                        v.Project.status,
+                        v.Project.location
+                    },
+                    vendoritem = new
+                    {
+                        v.Vendoritem.Vendoritem_ID,
+                        v.Vendoritem.brand,
+                        v.Vendoritem.capacity,
+                        v.Vendoritem.comment,
+                        v.Vendoritem.item_name,
+                        v.Vendoritem.price,
+                        v.Vendoritem.Warranty_duration,
+                        v.Vendoritem.Vendor.FirstName,
+                       
+                    }
+                }),
+                totalItems = totalcount,
+                totalPages = (int)Math.Ceiling((double)totalcount / pagesize),
                 currentPage = page
             };
 

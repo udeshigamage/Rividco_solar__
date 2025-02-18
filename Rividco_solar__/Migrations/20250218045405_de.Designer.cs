@@ -11,8 +11,8 @@ using Rividco_solar__.Dbcontext;
 namespace Rividco_solar__.Migrations
 {
     [DbContext(typeof(AppDbcontext))]
-    [Migration("20250217161228_sertr")]
-    partial class sertr
+    [Migration("20250218045405_de")]
+    partial class de
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -164,12 +164,6 @@ namespace Rividco_solar__.Migrations
                     b.Property<DateTime>("Commissioneddate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Company_ID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Coordinator_ID")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -184,10 +178,6 @@ namespace Rividco_solar__.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("comment")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("description")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -216,7 +206,7 @@ namespace Rividco_solar__.Migrations
 
                     b.HasKey("Project_ID");
 
-                    b.HasIndex("CompanyId");
+                    b.HasIndex("Customer_ID");
 
                     b.ToTable("Projects");
                 });
@@ -309,19 +299,7 @@ namespace Rividco_solar__.Migrations
                     b.Property<int>("Project_ID")
                         .HasColumnType("int");
 
-                    b.Property<int>("Project_ID1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Vendor_ID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Vendor_ID1")
-                        .HasColumnType("int");
-
                     b.Property<int>("Vendoritem_ID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Vendoritem_ID1")
                         .HasColumnType("int");
 
                     b.Property<string>("comment")
@@ -338,11 +316,9 @@ namespace Rividco_solar__.Migrations
 
                     b.HasKey("Projectitem_ID");
 
-                    b.HasIndex("Project_ID1");
+                    b.HasIndex("Project_ID");
 
-                    b.HasIndex("Vendor_ID1");
-
-                    b.HasIndex("Vendoritem_ID1");
+                    b.HasIndex("Vendoritem_ID");
 
                     b.ToTable("Projectitem");
                 });
@@ -720,13 +696,13 @@ namespace Rividco_solar__.Migrations
 
             modelBuilder.Entity("Rividco_solar__.Models.Project", b =>
                 {
-                    b.HasOne("Rividco_solar__.Models.Company", "Company")
+                    b.HasOne("Rividco_solar__.Models.Customer", "customer")
                         .WithMany()
-                        .HasForeignKey("CompanyId")
+                        .HasForeignKey("Customer_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Company");
+                    b.Navigation("customer");
                 });
 
             modelBuilder.Entity("Rividco_solar__.Models.ProjectCommissionreport", b =>
@@ -755,25 +731,17 @@ namespace Rividco_solar__.Migrations
                 {
                     b.HasOne("Rividco_solar__.Models.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("Project_ID1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Rividco_solar__.Models.Vendor", "Vendor")
-                        .WithMany()
-                        .HasForeignKey("Vendor_ID1")
+                        .HasForeignKey("Project_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Rividco_solar__.Models.Vendoritem", "Vendoritem")
                         .WithMany()
-                        .HasForeignKey("Vendoritem_ID1")
+                        .HasForeignKey("Vendoritem_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Project");
-
-                    b.Navigation("Vendor");
 
                     b.Navigation("Vendoritem");
                 });

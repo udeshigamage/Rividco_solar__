@@ -9,9 +9,8 @@ namespace Rividco_solar__.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
         public int Project_ID { get; set; }
-
-        public int Customer_ID { get; set; }
         
+
         public string location { get; set; }
         public string Coordinator_ID { get; set; }
         public string startdate { get; set; }
@@ -31,5 +30,10 @@ namespace Rividco_solar__.Models
         public DateTime Commissioneddate { get; set; }
 
         public DateTime Lastupdatedtime { get; set; }
+
+        [ForeignKey("customer")]
+        public int Customer_ID { get; set; }
+        [ValidateNever]
+        public Customer? customer { get; set; } = null!;
     }
 }

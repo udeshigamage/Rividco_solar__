@@ -16,14 +16,45 @@ namespace Rividco_solar__.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllProjects(int page = 1, int pagesize = 10)
+        public async Task<IActionResult> GetAll(int page = 1, int pagesize = 10)
         {
-            var (projects, Totalcount) = await _projectServices.GetAllAsync(page, pagesize);
+            // Fetch Vendoritems with associated Vendor
+            var (project, totalcount) = await _projectServices.GetAllAsync(page, pagesize);
+
+            // Shape the response
             var response = new
             {
-                data = projects,
-                totalItems = Totalcount,
-                totalPages = (int)Math.Ceiling((double)Totalcount / pagesize),
+                data = project.Select(v => new
+                {
+                    v.Project_ID,
+                    v.location,
+                    v.warranty_period,
+                    v.referencedby,
+                    v.comment,
+                    v.Address,
+                    v.Commissioneddate,
+                    v.Coordinator_ID,
+                    v.status,
+                    
+                    v.Lastupdatedby,
+                    v.Lastupdatedtime,
+                    // Vendor details fetched using Vendor_ID
+                    Customer= new
+                    {
+                        v.customer.LastName,
+                        v.customer.FirstName,
+                        v.customer.email,
+                        v.customer.mobileno,
+                        v.customer.officeno,
+                        v.customer.comment,
+                        v.customer.Address,
+                        v.customer.category,
+                        v.customer.Lastupdatedtime,
+                        v.customer.Lastupdatedby
+                    }
+                }),
+                totalItems = totalcount,
+                totalPages = (int)Math.Ceiling((double)totalcount / pagesize),
                 currentPage = page
             };
 

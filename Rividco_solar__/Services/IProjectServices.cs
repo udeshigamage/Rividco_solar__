@@ -4,7 +4,7 @@ namespace Rividco_solar__.Services
 {
     public interface IProjectServices
     {
-        Task<(IEnumerable<Project>,int Totalcount)> GetAllAsync(int page=1,int pagesize=10);
+        Task<(List<Project> project, int totalcount)> GetAllAsync(int page, int pagesize);
 
         Task<Project> GetIdByAsync(int id);
 

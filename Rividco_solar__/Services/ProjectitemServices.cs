@@ -13,13 +13,19 @@ namespace Rividco_solar__.Services
             _dbcontext = dbcontext;
         }
 
-        public async Task<(IEnumerable<Projectitem>, int Totalcount)> GetAllAsync(int page = 1, int pagesize = 10)
-
+        public async Task<(List<Projectitem> projectitems, int totalcount)> GetAllAsync(int page, int pagesize)
         {
-            var Totalcount = await _dbcontext.Projectitem.CountAsync();
-            var project = await _dbcontext.Projectitem.Skip((page - 1) * pagesize).Take(pagesize).ToListAsync();
-            return (project, Totalcount);
+            var query = _dbcontext.Projectitem
+                                  .Include(v => v.Project).ThenInclude(v=>v.customer).Include(v => v.Vendoritem).ThenInclude(v=>v.Vendor);// Include Vendor data
 
+
+            var totalcount = await query.CountAsync();
+            var projectitems = await query
+                                 .Skip((page - 1) * pagesize)
+                                 .Take(pagesize)
+                                 .ToListAsync();
+
+            return (projectitems, totalcount);
         }
 
         public async Task<Projectitem> GetIdByAsync(int id)
