@@ -35,6 +35,8 @@ namespace Rividco_solar__.Controllers
                     v.comment,
                     v.Addedby,
                     v.AddedDate,
+                    v.Project_ID,
+
 
                     Project = new
                     {
