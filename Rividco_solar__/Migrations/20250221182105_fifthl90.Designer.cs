@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rividco_solar__.Dbcontext;
 
@@ -10,9 +11,11 @@ using Rividco_solar__.Dbcontext;
 namespace Rividco_solar__.Migrations
 {
     [DbContext(typeof(AppDbcontext))]
-    partial class AppDbcontextModelSnapshot : ModelSnapshot
+    [Migration("20250221182105_fifthl90")]
+    partial class fifthl90
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,6 +113,10 @@ namespace Rividco_solar__.Migrations
 
                     b.Property<DateTime>("Lastupdatedtime")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<string>("category")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("email")
                         .IsRequired()

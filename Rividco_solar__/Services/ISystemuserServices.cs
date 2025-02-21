@@ -4,14 +4,12 @@ namespace Rividco_solar__.Services
 {
     public interface ISystemuserServices
     {
-        Task<(IEnumerable<Systemuser>, int Totalcount)> GetAllAsync(int page = 1, int pagesize = 10);
+        Task<string> RegisterUser(SystemuserDTO systemuser);
+        Task<string> LoginUser(LoginDTO systemuser);
+        string GenerateJwtToken(Systemuser systemuser);
+        string HashPassword(string password);
+        bool VerifyPassword(string hashedPassword, string password);
 
-        Task<Systemuser> GetIdByAsync(int id);
-
-        Task<Systemuser> AddAsync(Systemuser user);
-
-        Task<Systemuser> UpdateAsync(int id,Systemuser updatedsystemuser);
-
-        Task<bool> DeleteAsync(int id);
+         Task<(IEnumerable<Systemuser> systemuser, int TotalCount)> GetAllAsync(int page = 1, int pagesize = 10);
     }
 }

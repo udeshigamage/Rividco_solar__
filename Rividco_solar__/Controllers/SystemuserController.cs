@@ -8,65 +8,46 @@ namespace Rividco_solar__.Controllers
     [Route("api/[controller]")]
     public class SystemuserController : ControllerBase
     {
-        private readonly ISystemuserServices _systemuserServices;
+        private readonly ISystemuserServices systemuserServices;
 
-        public SystemuserController(ISystemuserServices systemuserServices)
+        public SystemuserController(ISystemuserServices authService)
         {
-           _systemuserServices = systemuserServices;
+            systemuserServices = authService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll(int page = 1, int pagesize = 10)
+        [HttpPost("signup")]
+        public async Task<IActionResult> Signup([FromBody] SystemuserDTO request)
         {
-            var (systemusers, totalcount) = await _systemuserServices.GetAllAsync(page, pagesize);
+            var result = await systemuserServices.RegisterUser(request);
+            if (result == "User registered successfully")
+                return Ok(new { message = result });
+
+            return BadRequest(new { message = result });
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDTO request)
+        {
+            var token = await systemuserServices.LoginUser(request);
+            if (token == "Invalid credentials")
+                return Unauthorized(new { message = token });
+
+            return Ok(new { token });
+        }
+        [HttpGet]
+        public async Task<IActionResult> Getall( int page=1,int pagesize=10)
+        {
+            var (systemuser,TotalCount)= await systemuserServices.GetAllAsync(page,pagesize);
             var response = new
             {
-                data = systemusers,
-                totalItems = totalcount,
-                totalPages = (int)Math.Ceiling((double)totalcount / pagesize),
+                data = systemuser,
+                totalItems = TotalCount,
+                totalPages = (int)Math.Ceiling((double)TotalCount / pagesize),
                 currentPage = page
             };
 
             return Ok(response);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var systemuser = await _systemuserServices.GetIdByAsync(id);
-            if (systemuser == null) return NotFound();
-            return Ok(systemuser);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Add(Systemuser systemuser)
-        {
-            var newsystemuser = await _systemuserServices.AddAsync(systemuser);
-            return CreatedAtAction(nameof(GetById), new { id = newsystemuser.Systemuser_ID }, newsystemuser);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateSystemuser(int id, Systemuser systemuser)
-        {
-            var updatedSystemuser = await _systemuserServices.UpdateAsync(id, systemuser);
-
-            if (updatedSystemuser == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(updatedSystemuser);
-        }
-
-
-
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var result = await _systemuserServices.DeleteAsync(id);
-            if (!result) return NotFound();
-            return NoContent();
+           
         }
     }
 }

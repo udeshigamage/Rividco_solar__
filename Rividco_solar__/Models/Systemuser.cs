@@ -15,27 +15,11 @@ namespace Rividco_solar__.Models
 
         public string email { get; set; }
 
-        public string Address { get; set; }
+        public string address { get; set; }
+        public string contactno { get; set; }
+        public string passwordhash { get; set; }
 
-        public string category { get; set; }
-
-        public string comment { get; set; }
-
-        public string mobileno { get; set; }
-
-        public string officeno { get; set; }
-
-        public string Role { get; set; }
-
-        public byte[]? Profilpic { get; set; }
         
-        public string username { get; set; }
-
-        public string password { get; set; }
-
-        public int Lastupdatedby { get; set; }
-
-        public DateTime Lastupdatedtime { get; set; }
 
 
 

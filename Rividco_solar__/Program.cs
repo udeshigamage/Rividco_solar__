@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Rividco_solar__.Dbcontext;
 using Rividco_solar__.Services;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +30,26 @@ builder.Services.AddScoped<IVendorServices, VendorServices>();
 builder.Services.AddScoped<ISystemuserServices, SystemuserServices>();
 builder.Services.AddScoped<IProjectCIAservices, ProjectCIAServices>();
 builder.Services.AddScoped<IProjecttestservices,ProjectTestServices>();
+builder.Services.AddScoped<IEmployeeservice, Employeeservice>();
 
+var key = Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+            ValidAudience = builder.Configuration["JwtSettings:Audience"]
+        };
+    });
+builder.Services.AddAuthorization();
 
 
 builder.Services.AddCors(options =>

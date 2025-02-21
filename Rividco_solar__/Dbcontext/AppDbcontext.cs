@@ -41,6 +41,8 @@ namespace Rividco_solar__.Dbcontext
 
         public DbSet<Participant> Participant { get; set; }
 
+        public DbSet<Employee> employees { get; set; }
+
         
 
 

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rividco_solar__.Dbcontext;
 
@@ -10,9 +11,11 @@ using Rividco_solar__.Dbcontext;
 namespace Rividco_solar__.Migrations
 {
     [DbContext(typeof(AppDbcontext))]
-    partial class AppDbcontextModelSnapshot : ModelSnapshot
+    [Migration("20250221071138_fifthl")]
+    partial class fifthl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,47 +88,6 @@ namespace Rividco_solar__.Migrations
                     b.HasKey("Customer_ID");
 
                     b.ToTable("customers");
-                });
-
-            modelBuilder.Entity("Rividco_solar__.Models.Employee", b =>
-                {
-                    b.Property<int>("Employee_ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("Lastupdatedby")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Lastupdatedtime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("mobileno")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("officeno")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Employee_ID");
-
-                    b.ToTable("employees");
                 });
 
             modelBuilder.Entity("Rividco_solar__.Models.Participant", b =>
