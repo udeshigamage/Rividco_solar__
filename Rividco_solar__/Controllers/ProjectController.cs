@@ -32,7 +32,10 @@ namespace Rividco_solar__.Controllers
                     v.referencedby,
                     v.comment,
                     v.Address,
-                    v.Commissioneddate,
+                    v.Customer_ID,
+                    v.startdate,
+                    v.estimatedcost,
+                   
                     v.Coordinator_ID,
                     v.status,
                     

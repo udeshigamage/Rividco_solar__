@@ -44,7 +44,7 @@ namespace Rividco_solar__.Controllers
                         v.Project.Coordinator_ID,
                         v.Project.Address,
                         v.Project.comment,
-                        v.Project.Commissioneddate,
+                       
                         v.Project.customer.FirstName,
                         v.Project.estimatedcost,
                         v.Project.startdate,

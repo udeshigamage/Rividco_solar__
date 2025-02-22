@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rividco_solar__.Dbcontext;
 
@@ -10,9 +11,11 @@ using Rividco_solar__.Dbcontext;
 namespace Rividco_solar__.Migrations
 {
     [DbContext(typeof(AppDbcontext))]
-    partial class AppDbcontextModelSnapshot : ModelSnapshot
+    [Migration("20250222095826_frtuiui")]
+    partial class frtuiui
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -198,6 +201,9 @@ namespace Rividco_solar__.Migrations
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<DateTime>("Commissioneddate")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Coordinator_ID")
                         .IsRequired()
@@ -509,6 +515,10 @@ namespace Rividco_solar__.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("comment")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("description")
                         .IsRequired()
                         .HasColumnType("longtext");
 

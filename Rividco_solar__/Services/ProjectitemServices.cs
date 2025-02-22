@@ -14,7 +14,7 @@ namespace Rividco_solar__.Services
         }
         public async Task<(List<Projectitem> tasks, int totalcount)> GetByProjectIdAsync(int projectId, int page, int pagesize)
         {
-            var query = _dbcontext.Projectitem.Where(c => c.Project_ID == projectId);
+            var query = _dbcontext.Projectitem.Where(c => c.Project_ID == projectId).Include(c => c.Project).Include(c => c.Vendoritem);
             var totalcount = await query.CountAsync();
             var tasks = await query
                                  .Skip((page - 1) * pagesize)

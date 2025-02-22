@@ -20,7 +20,7 @@ namespace Rividco_solar__.Models
 
         public int Assignedto { get; set; }
 
-        public string description { get; set; }
+       
 
         public string Urgencylevel { get; set; }
 

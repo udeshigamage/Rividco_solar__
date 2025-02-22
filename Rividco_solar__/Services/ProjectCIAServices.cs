@@ -59,7 +59,7 @@ namespace Rividco_solar__.Services
             }
 
             // Update the employee fields
-            existingTask.description = updatedtask.description;
+            
             existingTask.callbackno = updatedtask.callbackno;
 
             existingTask.comment = updatedtask.comment;

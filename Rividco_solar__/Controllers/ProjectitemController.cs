@@ -30,7 +30,9 @@ namespace Rividco_solar__.Controllers
                     v.Added_Date,
                     v.comment,
                     v.Vendoritem_ID,
-                    v.Vendoritem
+                   v.Vendoritem
+
+
 
 
 
@@ -70,7 +72,7 @@ namespace Rividco_solar__.Controllers
                         v.Project.Coordinator_ID,
                         v.Project.Address,
                         v.Project.comment,
-                        v.Project.Commissioneddate,
+                       
                         v.Project.customer.FirstName,
                         v.Project.estimatedcost,
                         v.Project.startdate,

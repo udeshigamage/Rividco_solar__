@@ -27,12 +27,13 @@ namespace Rividco_solar__.Models
 
         public int Lastupdatedby { get; set; }
 
-        public DateTime Commissioneddate { get; set; }
+       
 
         public DateTime Lastupdatedtime { get; set; }
 
         [ForeignKey("customer")]
         public int Customer_ID { get; set; }
+
         [ValidateNever]
         public Customer? customer { get; set; } = null!;
     }

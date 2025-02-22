@@ -58,11 +58,12 @@ namespace Rividco_solar__.Services
 
             existingprojects.status = updatedproject.status;
             existingprojects.comment = updatedproject.comment;
+            existingprojects.Customer_ID=updatedproject.Customer_ID;
            
             existingprojects.location = updatedproject.location;
             existingprojects.Address =updatedproject.Address;
             existingprojects.estimatedcost = updatedproject.estimatedcost;  
-            existingprojects.Commissioneddate= updatedproject.Commissioneddate; 
+           existingprojects.Coordinator_ID = updatedproject.Coordinator_ID;
             existingprojects.referencedby = updatedproject.referencedby;
             existingprojects.startdate = updatedproject.startdate;
             existingprojects.warranty_period =updatedproject.warranty_period;
